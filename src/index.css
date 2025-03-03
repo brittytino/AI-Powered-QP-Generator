@@ -1,0 +1,101 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+
+    --primary: 222.2 47.4% 11.2%;
+    --primary-foreground: 210 40% 98%;
+
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 222.2 84% 4.9%;
+
+    --radius: 0.75rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}
+
+.glass-card {
+  @apply bg-white bg-opacity-50 backdrop-blur-lg rounded-lg border border-white border-opacity-20 shadow-lg;
+}
+
+.button-shadow {
+  @apply shadow-[0_4px_14px_0_rgb(0,0,0,0.1)];
+}
+
+.math-paper {
+  @apply bg-white p-8 rounded-lg shadow-lg;
+}
+
+.formula-preview {
+  @apply bg-gray-50 p-4 rounded-lg mt-4 font-mono;
+}
+
+.topic-selector {
+  @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4;
+}
+
+.difficulty-badge {
+  @apply px-3 py-1 rounded-full text-sm font-medium;
+}
+
+.difficulty-badge-easy {
+  @apply bg-green-100 text-green-800;
+}
+
+.difficulty-badge-medium {
+  @apply bg-yellow-100 text-yellow-800;
+}
+
+.difficulty-badge-hard {
+  @apply bg-red-100 text-red-800;
+}
+
+.equation-input {
+  @apply font-mono bg-gray-50 border rounded-lg p-4;
+}
+
+.preview-card {
+  @apply bg-white rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow;
+}
+
+.sidebar-nav {
+  @apply flex flex-col space-y-2;
+}
+
+.question-card {
+  @apply bg-white rounded-lg shadow p-6 hover:shadow-lg transition-all;
+}
+

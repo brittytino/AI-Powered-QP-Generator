@@ -1,0 +1,9 @@
+
+# Project ID for the Supabase project
+project_id = "evlkagwvhducaukxhcdo"
+
+[functions.generate-questions]
+verify_jwt = false
+
+[functions.extract-questions]
+verify_jwt = false
