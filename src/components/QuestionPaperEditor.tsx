@@ -21,6 +21,7 @@ interface Section {
   name: string;
   marks: number;
   questionCount: number;
+  perQuestionMarks?: Array<{id: number, marks: number}>;
 }
 
 // Define the paper data structure for local storage
@@ -199,7 +200,7 @@ const QuestionPaperEditor = () => {
         toast({
           title: "Success!",
           description: "Question paper saved successfully.",
-          variant: "default", // Use default/success styling
+          variant: "default", // Using default styling which is green
         });
         
         // Clear the local storage draft after successful save

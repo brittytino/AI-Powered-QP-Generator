@@ -2,10 +2,10 @@
 // PDF styling constants
 export const pdfStyles = {
   fonts: {
-    header: { size: 16, style: 'bold' },
+    header: { size: 18, style: 'bold' },
     subheader: { size: 14, style: 'bold' },
-    normal: { size: 10, style: 'normal' },
-    small: { size: 8, style: 'normal' },
+    normal: { size: 11, style: 'normal' },
+    small: { size: 9, style: 'normal' },
   },
   colors: {
     primary: '#1e3a8a', // dark blue
@@ -14,14 +14,14 @@ export const pdfStyles = {
     success: '#10b981', // green
   },
   margins: {
-    top: 20,
-    right: 14, 
-    bottom: 20,
-    left: 14
+    top: 25,
+    right: 20, 
+    bottom: 25,
+    left: 20
   },
   spacing: {
-    paragraph: 7,
-    section: 15
+    paragraph: 8,
+    section: 18
   }
 };
 
@@ -42,4 +42,5 @@ export interface SectionInfo {
   name: string;
   marks: number;
   questionCount: number;
+  perQuestionMarks?: Array<{id: number, marks: number}>;
 }

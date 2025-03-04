@@ -18,19 +18,21 @@ export const addQuestionsToDocument = (
   // Add questions grouped by sections
   if (sections && sections.length > 0) {
     let startIndex = 0;
+    let currentPage = 1;
     
     sections.forEach((section, sectionIndex) => {
       // Check if we need a new page
-      if (currentY > maxY - 30) {
+      if (currentY > maxY - 40 || (sectionIndex > 0 && currentY > maxY - 80)) {
         doc.addPage();
         currentY = pdfStyles.margins.top;
+        currentPage++;
       }
       
       // Add section header
       doc.setFont("helvetica", "bold");
       doc.setFontSize(pdfStyles.fonts.subheader.size);
-      doc.text(`${section.name} [${section.marks} marks]`, 14, currentY);
-      currentY += 8;
+      doc.text(`${section.name} [${section.marks} marks]`, pdfStyles.margins.left, currentY);
+      currentY += 10;
       
       // Add questions for this section
       const sectionQuestions = questions.slice(startIndex, startIndex + section.questionCount);
@@ -38,34 +40,42 @@ export const addQuestionsToDocument = (
       
       sectionQuestions.forEach((question, index) => {
         // Check if need to start a new page
-        if (currentY > maxY - 20) {
+        if (currentY > maxY - 30) {
           doc.addPage();
           currentY = pdfStyles.margins.top;
+          currentPage++;
         }
         
-        // Question number
+        // Question number and mark
         doc.setFont("helvetica", "bold");
         doc.setFontSize(pdfStyles.fonts.normal.size);
-        doc.text(`Q${index + 1}. `, 14, currentY);
+        
+        // Get marks for this specific question if available
+        let questionMarks = question.marks;
+        if (section.perQuestionMarks && section.perQuestionMarks[index]) {
+          questionMarks = section.perQuestionMarks[index].marks;
+        }
+        
+        doc.text(`Q${index + 1}. `, pdfStyles.margins.left, currentY);
         
         // Question text
         doc.setFont("helvetica", "normal");
-        const questionText = `${question.question} [${question.marks} marks]`;
-        const wrappedText = doc.splitTextToSize(questionText, pageWidth - 30);
-        doc.text(wrappedText, 25, currentY);
+        const questionText = `${question.question} [${questionMarks} marks]`;
+        const wrappedText = doc.splitTextToSize(questionText, pageWidth - 45);
+        doc.text(wrappedText, pdfStyles.margins.left + 10, currentY);
         
         // Calculate space needed for this question
-        const textHeight = wrappedText.length * 5;
-        currentY += textHeight + 10; // Add space after question
+        const textHeight = wrappedText.length * 6;
+        currentY += textHeight + 12; // Add space after question
       });
       
-      currentY += 5; // Add space after section
+      currentY += 8; // Add space after section
     });
   } else {
     // If no sections, just list all questions
     questions.forEach((question, index) => {
       // Check if need to start a new page
-      if (currentY > maxY - 20) {
+      if (currentY > maxY - 30) {
         doc.addPage();
         currentY = pdfStyles.margins.top;
       }
@@ -73,17 +83,17 @@ export const addQuestionsToDocument = (
       // Question number
       doc.setFont("helvetica", "bold");
       doc.setFontSize(pdfStyles.fonts.normal.size);
-      doc.text(`Q${index + 1}. `, 14, currentY);
+      doc.text(`Q${index + 1}. `, pdfStyles.margins.left, currentY);
       
       // Question text
       doc.setFont("helvetica", "normal");
       const questionText = `${question.question} [${question.marks} marks]`;
-      const wrappedText = doc.splitTextToSize(questionText, pageWidth - 30);
-      doc.text(wrappedText, 25, currentY);
+      const wrappedText = doc.splitTextToSize(questionText, pageWidth - 45);
+      doc.text(wrappedText, pdfStyles.margins.left + 10, currentY);
       
       // Calculate space needed for this question
-      const textHeight = wrappedText.length * 5;
-      currentY += textHeight + 10; // Add space after question
+      const textHeight = wrappedText.length * 6;
+      currentY += textHeight + 12; // Add space after question
     });
   }
 };
