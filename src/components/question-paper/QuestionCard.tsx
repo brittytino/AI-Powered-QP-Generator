@@ -8,9 +8,10 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContai
 interface QuestionCardProps {
   question: Question;
   index: number;
+  showAnswers?: boolean;
 }
 
-const QuestionCard = ({ question: q, index }: QuestionCardProps) => {
+const QuestionCard = ({ question: q, index, showAnswers = true }: QuestionCardProps) => {
   const getDifficultyColor = (difficulty: string) => {
     switch (difficulty) {
       case 'easy':
@@ -61,9 +62,11 @@ const QuestionCard = ({ question: q, index }: QuestionCardProps) => {
             </span>
           </div>
           <div className="flex items-center gap-2">
-            <span className={`px-3 py-1 rounded-full text-sm font-medium border ${getDifficultyColor(q.difficulty)}`}>
-              {q.difficulty}
-            </span>
+            {showAnswers && (
+              <span className={`px-3 py-1 rounded-full text-sm font-medium border ${getDifficultyColor(q.difficulty)}`}>
+                {q.difficulty}
+              </span>
+            )}
             <span className="bg-blue-50 text-blue-700 px-3 py-1 rounded-full text-sm font-medium border border-blue-100">
               {q.marks} marks
             </span>
@@ -81,32 +84,36 @@ const QuestionCard = ({ question: q, index }: QuestionCardProps) => {
 
           {q.metadata?.graphData && generateGraph(q)}
 
-          <div className="mt-6">
-            <h4 className="text-sm font-semibold text-gray-600 mb-2">Answer:</h4>
-            <div className="bg-white border border-gray-200 rounded-lg p-4">
-              {q.metadata?.answerLatex ? (
-                <BlockMath>{q.metadata.answerLatex}</BlockMath>
-              ) : (
-                <p className="text-gray-800">{q.answer}</p>
-              )}
-            </div>
-          </div>
+          {showAnswers && (
+            <>
+              <div className="mt-6">
+                <h4 className="text-sm font-semibold text-gray-600 mb-2">Answer:</h4>
+                <div className="bg-white border border-gray-200 rounded-lg p-4">
+                  {q.metadata?.answerLatex ? (
+                    <BlockMath>{q.metadata.answerLatex}</BlockMath>
+                  ) : (
+                    <p className="text-gray-800">{q.answer}</p>
+                  )}
+                </div>
+              </div>
 
-          {q.steps && q.steps.length > 0 && (
-            <div className="mt-6">
-              <h4 className="text-sm font-semibold text-gray-600 mb-2">Solution Steps:</h4>
-              <ol className="list-decimal list-inside space-y-3">
-                {q.steps.map((step, stepIndex) => (
-                  <li key={stepIndex} className="text-gray-700 bg-gray-50 p-3 rounded-lg">
-                    {q.metadata?.stepLatex?.[stepIndex] ? (
-                      <InlineMath>{q.metadata.stepLatex[stepIndex]}</InlineMath>
-                    ) : (
-                      step
-                    )}
-                  </li>
-                ))}
-              </ol>
-            </div>
+              {q.steps && q.steps.length > 0 && (
+                <div className="mt-6">
+                  <h4 className="text-sm font-semibold text-gray-600 mb-2">Solution Steps:</h4>
+                  <ol className="list-decimal list-inside space-y-3">
+                    {q.steps.map((step, stepIndex) => (
+                      <li key={stepIndex} className="text-gray-700 bg-gray-50 p-3 rounded-lg">
+                        {q.metadata?.stepLatex?.[stepIndex] ? (
+                          <InlineMath>{q.metadata.stepLatex[stepIndex]}</InlineMath>
+                        ) : (
+                          step
+                        )}
+                      </li>
+                    ))}
+                  </ol>
+                </div>
+              )}
+            </>
           )}
         </div>
       </div>
